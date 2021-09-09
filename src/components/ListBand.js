@@ -19,7 +19,7 @@ const ListBand = () => {
 
   return (
     <>
-      <div className="table table-stripped">
+      <table className="table table-stripped">
         <thead>
           <tr>
             <th></th>
@@ -31,7 +31,7 @@ const ListBand = () => {
         <tbody>
          {createRows()}
         </tbody>
-      </div>
+      </table>
     </>
   )
 }
