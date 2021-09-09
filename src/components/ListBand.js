@@ -1,19 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-const ListBand = () => {
+const ListBand = ({data}) => {
 
+  const [bands, setBands] = useState(data)
+
+  useEffect(() => {
+    setBands(data)
+  }, [data])
+  
   const createRows = () => {
     return (
-      <tr>
+      bands.map(band => (
+        <tr key={band.id}>
         <td>
           <button className="btn btn-primary">+1</button>
         </td>
         <td>
-          <input type="text" className="form-control" />
+          <input value={band.name} type="text" className="form-control" />
         </td>
-        <td><h3>15</h3></td>
+        <td><h3>{band.votes}</h3></td>
         <td><button className="btn btn-danger">Delete</button></td>
       </tr>
+      ))
+      
     )
   }
 
