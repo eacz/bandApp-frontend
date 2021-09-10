@@ -1,34 +1,14 @@
 import { useEffect, useState } from "react";
-import io from "socket.io-client";
 import AddBand from "./components/AddBand";
 import ListBand from "./components/ListBand";
+import useSocket from "./hooks/useSocket";
 
-const connectSocketServer = () => {
-  const socket = io('http://localhost:4000', { transports: [ 'websocket'] })
-  return socket
-}
+
 
 function App() {
-  const [socket] = useState(connectSocketServer())
-  const [online, setOnline] = useState(false)
   const [bands, setBands] = useState([])
 
-  useEffect(() => {
-    setOnline(socket.connected)
-  }, [socket])
-
-  useEffect(() => {
-    socket.on('connect', () => {
-      setOnline(true)
-     //return socket.disconnect()
-    })
-  }, [socket])
-
-  useEffect(() => {
-    socket.on('disconnect', () => {
-      setOnline(false)
-    })
-  }, [socket])
+  const { online, socket } = useSocket('http://localhost:4000')
 
 
   useEffect(() => {
@@ -38,7 +18,6 @@ function App() {
   }, [socket])
   
   const vote = (id) => {
-    console.log('voting ' + id);
     socket.emit('vote-band', id)
   }
 
