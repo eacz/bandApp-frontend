@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const ListBand = ({data, vote, deleteBand}) => {
+const ListBand = ({data, vote, deleteBand, changeBandName}) => {
 
   const [bands, setBands] = useState(data)
 
@@ -18,9 +18,7 @@ const ListBand = ({data, vote, deleteBand}) => {
   }
 
   const handleOnBlurName = (id, name) => {
-    console.log(id);
-    console.log(name);
-    //here will be emitted the edit socket event
+    changeBandName(id, name)
   }
   
   const createRows = () => {
