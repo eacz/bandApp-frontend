@@ -1,31 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { SocketContext } from '../context/SocketContext'
 import AddBand from '../components/AddBand'
 import ListBand from '../components/ListBand'
 
 const BandsView = () => {
-
-  const [bands, setBands] = useState([])
-  const {socket, online} = useContext(SocketContext)
   
-  useEffect(() => {
-    socket.on('current-bands', data => {
-      setBands(data)
-    })
-  }, [socket])
-  
-  const vote = (id) => {
-    socket.emit('vote-band', id)
-  }
-
-  const deleteBand = (id) => {
-    socket.emit('delete-band', id)
-  }
-
-  const changeBandName = (id, name) => {
-    socket.emit('change-band-name', {id, name})
-  }
-
+  const { online} = useContext(SocketContext)
 
   return (
     <div className="container" >
@@ -45,7 +25,7 @@ const BandsView = () => {
 
     <div className="row">
       <div className="col-8">
-        <ListBand data={bands} vote={vote} deleteBand={deleteBand} changeBandName={changeBandName} /> 
+        <ListBand />
       </div>
       <div className="col-4">
         <AddBand />

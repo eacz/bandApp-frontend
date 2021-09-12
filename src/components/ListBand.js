@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { SocketContext } from '../context/SocketContext'
+import ListBandItem from './ListBandItem'
 
-const ListBand = ({data, vote, deleteBand, changeBandName}) => {
+const ListBand = () => {
 
-  const [bands, setBands] = useState(data)
-
+  const [bands, setBands] = useState([])
+  const {socket} = useContext(SocketContext)
+ 
   useEffect(() => {
-    setBands(data)
-  }, [data])
+    socket.on('current-bands', data => {
+      setBands(data)
+    })
+    return () => socket.off('current-bands');
+  }, [socket])
 
   const handleNameChange = (e, id) => {
     setBands(bands.map(band => {
@@ -15,32 +21,6 @@ const ListBand = ({data, vote, deleteBand, changeBandName}) => {
       }
       return band
     }))
-  }
-
-  const handleOnBlurName = (id, name) => {
-    changeBandName(id, name)
-  }
-  
-  const createRows = () => {
-    return (
-      bands.map(band => (
-        <tr key={band.id}>
-        <td>
-          <button onClick={() => vote(band.id)} className="btn btn-primary">+1</button>
-        </td>
-        <td>
-          <input 
-          value={band.name} type="text" className="form-control" 
-            onChange={(e) => handleNameChange(e, band.id)} 
-            onBlur={() => handleOnBlurName(band.id, band.name)}
-          />
-        </td>
-        <td><h3>{band.votes}</h3></td>
-        <td><button onClick={() => deleteBand(band.id)} className="btn btn-danger">Delete</button></td>
-      </tr>
-      ))
-      
-    )
   }
 
   return (
@@ -55,7 +35,7 @@ const ListBand = ({data, vote, deleteBand, changeBandName}) => {
           </tr>
         </thead>
         <tbody>
-         {createRows()}
+         { bands.map(band => <ListBandItem key={band.id} band={band} handleNameChange={handleNameChange} />) }
         </tbody>
       </table>
     </>

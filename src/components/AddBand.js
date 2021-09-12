@@ -3,8 +3,8 @@ import { SocketContext } from '../context/SocketContext';
 
 const AddBand = () => {
   
-  const [newBand, setNewBand] = useState('');
   const { socket } = useContext(SocketContext)
+  const [newBand, setNewBand] = useState('');
   const onSubmit = (e) => {
     e.preventDefault()
     if(newBand.trim().length > 0){
