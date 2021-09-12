@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { SocketContext } from '../context/SocketContext'
 import AddBand from '../components/AddBand'
 import ListBand from '../components/ListBand'
+import ChartBand from '../components/ChartBand'
 
 const BandsView = () => {
   
@@ -22,6 +23,12 @@ const BandsView = () => {
   
     <h1>BandNames</h1>
     <hr />
+
+    <div className="row">
+      <div className="col">
+        <ChartBand />
+      </div>
+    </div>
 
     <div className="row">
       <div className="col-8">
